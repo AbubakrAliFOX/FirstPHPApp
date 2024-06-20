@@ -1,57 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-<?php
-     $movies = [
-        [
-            'name' => 'Back to the Future',
-            'releaseYear' => 1985,
-        ],
+<?php 
 
-        [
-            'name' => "Weekend at Bernie's",
-            'releaseYear' => 1989,
-        ],
+require("utils.php");
 
-        [
-            'name' => 'Pirates of the Caribbean',
-            'releaseYear' => 2003,
-        ],
+$uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 
-        [
-            'name' => 'Interstellar',
-            'releaseYear' => 2014,
-        ],
-    ];
+$folder = "controllers";
 
-    function filter($array, $conditionFunction) {
-        $filteredItem = [];
-        foreach ($array as $item) {
-            if($conditionFunction($item)) {
-                $filteredItem[] = $item;
-            }
-        }
+$routes = [
+    '/' => 'controllers/index.php',
+    '/contact' => 'controllers/contact.php',
+    '/about' => 'controllers/about.php'
+];
 
-        return $filteredItem;
-    }
+if(array_key_exists($uri, $routes)) {
+    require $routes[$uri];
+    
+    dumpDie("$routes[$uri]");
+} else {
+    http_response_code(404);
 
+    echo "Not Found 404";
 
-    $filteredMovies = filter($movies, function($movie) {
-        return $movie['releaseYear'] === 2003;
-    });
-?>
+    die();
+}
 
-<ul>
-    <?php foreach ($filteredMovies as $movie): ?>
-        <li>
-            <?= $movie['name'] ?>
-        </li>
-    <?php endforeach; ?>       
-</ul>
-</body>
-</html>
