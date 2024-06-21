@@ -7,9 +7,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    <a class="nav-link" href="#">About</a>
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link <?= urlIs("/") ? "active" : "";?>" aria-current="page" href="/">Home</a>
+                    <a class="nav-link <?= urlIs("/about") ? "active" : "";?>" href="/about">About</a>
+                    <a class="nav-link <?= urlIs("/contact") ? "active" : "";?>" href="/contact">Contact</a>
                 </div>
             </div>
         </div>

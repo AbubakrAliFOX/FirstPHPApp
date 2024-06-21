@@ -2,25 +2,20 @@
 
 require("utils.php");
 
-$uri = parse_url($_SERVER['REQUEST_URI'])['path'];
+//require("router.php");
 
-$folder = "controllers";
+$dsn = "sqlsrv:server=DESKTOP-SQIGP5H;Database=ContactsDB";
 
-$routes = [
-    '/' => 'controllers/index.php',
-    '/contact' => 'controllers/contact.php',
-    '/about' => 'controllers/about.php'
-];
+$pdo = new PDO($dsn);
 
-if(array_key_exists($uri, $routes)) {
-    require $routes[$uri];
-    
-    dumpDie("$routes[$uri]");
-} else {
-    http_response_code(404);
+$statement = $pdo->prepare("select * from Contacts");
 
-    echo "Not Found 404";
+$statement->execute();
 
-    die();
+$contacts = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($contacts as $contact) {
+    echo "<li>" . $contact['FirstName'] . " " . $contact['LastName'] . "</li>";
 }
+
 
